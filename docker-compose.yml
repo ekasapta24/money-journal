@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  localstack:
+    image: localstack/localstack:3.8
+    container_name: money-journal-localstack
+    ports:
+      - "4566:4566"
+    environment:
+      - SERVICES=s3
+      - DEBUG=0
+    volumes:
+      - "./localstack-data:/var/lib/localstack"
+
+# Catatan: MySQL tidak disertakan di sini karena kamu sudah punya
+# MySQL dari XAMPP yang jalan di localhost:3306.
+# Kalau mau pakai MySQL lewat Docker juga, tinggal tambahkan service di sini.

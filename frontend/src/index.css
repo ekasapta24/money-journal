@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #F3F1E4;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(43,46,35,0.04) 1px, transparent 0);
+  background-size: 24px 24px;
+  color: #2B2E23;
+  font-family: 'Inter', sans-serif;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+::selection {
+  background-color: #C08A3E;
+  color: #FBFAF3;
+}
+
+input, select, textarea {
+  outline: none;
+}
+
+input:focus, select:focus, textarea:focus, button:focus-visible {
+  outline: 2px solid #6B8259;
+  outline-offset: 2px;
+}
