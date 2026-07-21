@@ -1,29 +1,35 @@
 # Money Journal
 
+> **Catatan**: Project ini saat ini dijalankan menggunakan LocalStack untuk simulasi S3 di lingkungan development. Konfigurasi sudah siap untuk beralih ke Amazon S3 dan AWS EC2 yang sesungguhnya tanpa perlu mengubah kode, cukup dengan menyesuaikan environment variables (lihat bagian "Setup production" di bawah).
+
 Aplikasi pencatatan keuangan yang membantu pengguna tidak hanya mencatat transaksi, tetapi juga memahami kebiasaan dan alasan di balik keputusan finansialnya, lewat jurnal, tag, dan review pembelian.
 
 ## Stack teknologi
 
-- Frontend: React
+- Frontend: React (Vite) + Tailwind CSS
 - Backend: Node.js + Express
 - Database: MySQL (XAMPP)
 - Cloud storage: Amazon S3 (development pakai LocalStack)
-- Compute: EC2 (menjalankan cron job reminder review)
+- Compute: AWS EC2 (menjalankan backend & cron job reminder review)
 
 ## Struktur folder
 
 ```
 money-journal/
-├── backend/          Express API
-│   └── src/
-│       ├── config/       koneksi DB & S3
-│       ├── routes/       endpoint API
-│       ├── middleware/   auth JWT
-│       └── jobs/         cron job (peran EC2)
-├── frontend/         React app
+├── backend/ Express API
+│ └── src/
+│ ├── config/ koneksi DB & S3
+│ ├── routes/ endpoint API (auth, transaksi, tag, review, goal, recap)
+│ ├── middleware/ auth JWT
+│ └── jobs/ cron job (peran EC2)
+├── frontend/ React app
+│ └── src/pages/ Login, Register, Dashboard, TambahTransaksi,
+│ Timeline, TransaksiDetail, ReviewPembelian,
+│ Goals, Insight, Profile
 ├── database/
-│   └── schema.sql    struktur tabel
-├── docker-compose.yml    LocalStack S3 untuk development
+│ └── schema.sql struktur tabel
+├── docker-compose.yml LocalStack S3 untuk development
+└── scripts/ helper script3 untuk development
 └── scripts/          helper script
 ```
 
@@ -59,7 +65,7 @@ npm install
 npm run dev
 ```
 
-## Setup production (submit/demo ke dosen)
+## Setup production (submit/demo)
 
 1. Buat akun AWS Educate atau AWS Free Tier
 2. Buat bucket S3 asli, catat nama bucket dan region
@@ -74,19 +80,17 @@ Tidak ada perubahan kode yang diperlukan — cukup ganti environment variables, 
 
 ## Peran AWS dalam aplikasi ini
 
-- **S3**: menyimpan foto struk/bukti transaksi yang diupload user saat mencatat transaksi
+- **S3**: menyimpan foto struk/bukti transaksi yang diupload user saat mencatat atau mengedit transaksi
 - **EC2**: menjalankan backend API, sekaligus menjalankan cron job harian (`src/jobs/reviewReminder.job.js`) yang mengecek transaksi mana yang sudah waktunya direview (30 hari setelah tanggal transaksi)
 
 ## Status pengerjaan
 
-- [x] Struktur project & scaffold backend
+- [x] Struktur project & backend
 - [x] Skema database
-- [x] Endpoint API inti (auth, transaksi, tag, review, goal, recap) — sudah teruji jalan
-- [x] Frontend React — Login, Register, Dashboard (terhubung ke backend)
-- [ ] Halaman Timeline, Tambah Transaksi, Review, Goals, Insight, Profile
-- [ ] Integrasi upload struk end-to-end
-- [ ] Testing
-- [ ] Manual penggunaan aplikasi (PDF)
+- [x] Endpoint API lengkap (auth, transaksi, tag, review, goal, recap)
+- [x] Frontend React — seluruh 9 halaman selesai dan terhubung ke backend
+- [x] Integrasi upload struk ke S3 end-to-end
+- [x] Manual penggunaan aplikasi (PDF)
 
 ## Menjalankan frontend
 
